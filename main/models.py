@@ -21,7 +21,7 @@ class Reader(models.Model):
 
 class Teacher(models.Model):
     user = models.OneToOneField(to='User', verbose_name='Foydalanuvchi')
-    science = models.ForeignKey(to='Science', verbose_name='Fan', null=True, blank=True, on_delete=models.SET_NULL)
+    science = models.ManyToManyField(to='Science', verbose_name='Fan', null=True, blank=True,)
     room = models.ForeignKey(to='Room', null=True, blank=True, verbose_name='xona', on_delete=models.SET_NULL )
 
     class Meta:
@@ -33,7 +33,20 @@ class Class(models.Model):
     name = models.CharField(max_length=10, verbose_name='Nomi')
     number = models.IntegerField(verbose_name="O'quvchilar soni")
     room = models.ForeignKey(to='Room', null=True, blank=True, verbose_name='Xona', on_delete=models.SET_NULL)
-    science = models.ManyToManyField(to='Class_science', verbose_name='Fanlar',)
+    science = models.ManyToManyField(to='Class_science', verbose_name='Fanlar', null=True,)
+    status = models.IntegerField(choices=(
+        (1, 1),
+        (2, 2),
+        (3, 3),
+        (4, 4),
+        (5, 5),
+        (6, 6),
+        (7, 7),
+        (8,8),
+        (9, 9),
+        (10, 10),
+        (11, 11),
+    ))
 
     class Meta:
         verbose_name = 'Class'
@@ -55,6 +68,30 @@ class Class_science(models.Model):
     class Meta:
         verbose_name = 'Class_science'
         verbose_name_plural = 'Sinf fani'
+
+
+class Science(models.Model):
+    name = models.CharField(max_length=50, verbose_name='Nomi')
+
+    class Meta:
+        verbose_name = 'Science'
+        verbose_name_plural = 'Fan'
+
+
+class Test(models.Model):
+    clas = models.IntegerField(verbose_name='Sinf')
+    science = models.ForeignKey(to='Science', on_delete=models.CASCADE, verbose_name='Fan')
+    question = models.TextField( verbose_name='Savol')
+    a = models.CharField(max_length=255)
+    b = models.CharField(max_length=255)
+    c = models.CharField(max_length=255)
+    d = models.CharField(max_length=255)
+    answer = models.CharField(max_length=1, choices=(
+        ('a', 'a'),
+        ('b', 'b'),
+        ('c', 'c'),
+        ('d', 'd')
+    ))
 
 
 
