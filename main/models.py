@@ -1,9 +1,9 @@
 from django.db import models
-
+from account.models import User
 
 
 class Reader(models.Model):
-    user = models.OneToOneField(to='User', verbose_name='Foydalanuvchi')
+    user = models.OneToOneField(to='User', verbose_name='Foydalanuvchi', on_delete=models.CASCADE)
     teachers = models.ManyToManyField(to='Teacher', verbose_name="O'qituvchsi")
     schedule = models.FileField(verbose_name='dars jadvali', null=True, blank=True)
     grades = models.FileField(verbose_name='dars baholari', null=True, blank=True)
@@ -20,8 +20,8 @@ class Reader(models.Model):
 
 
 class Teacher(models.Model):
-    user = models.OneToOneField(to='User', verbose_name='Foydalanuvchi')
-    science = models.ManyToManyField(to='Science', verbose_name='Fan', null=True, blank=True,)
+    user = models.OneToOneField(to='User', verbose_name='Foydalanuvchi', on_delete=models.CASCADE)
+    science = models.ManyToManyField(to='Science', verbose_name='Fan', blank=True,)
     room = models.ForeignKey(to='Room', null=True, blank=True, verbose_name='xona', on_delete=models.SET_NULL )
 
     class Meta:
@@ -33,7 +33,7 @@ class Class(models.Model):
     name = models.CharField(max_length=10, verbose_name='Nomi')
     number = models.IntegerField(verbose_name="O'quvchilar soni")
     room = models.ForeignKey(to='Room', null=True, blank=True, verbose_name='Xona', on_delete=models.SET_NULL)
-    science = models.ManyToManyField(to='Class_science', verbose_name='Fanlar', null=True,)
+    science = models.ManyToManyField(to='Class_science', verbose_name='Fanlar', blank=True)
     status = models.IntegerField(choices=(
         (1, 1),
         (2, 2),
