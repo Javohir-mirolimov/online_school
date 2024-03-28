@@ -9,7 +9,7 @@ class Reader(models.Model):
     class_field = models.ForeignKey('Class', verbose_name="Sinfi", null=True, blank=True, on_delete=models.SET_NULL)
     status = models.IntegerField(choices=(
         (1, 'Yaxshi'),
-        (2, 'O\'rtacha'),
+        (2, 'Ortacha'),
         (3, 'Yomon')
     ), default=2)
 
